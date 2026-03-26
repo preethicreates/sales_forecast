@@ -14,7 +14,9 @@ def home():
 @app.route('/predict')
 def predict():
     # Example input (change based on your dataset)
-    data = np.array([[10, 2, 2024]])
+    #data = np.array([[10, 2, 2024]])
+    data=np.zeros((1,30))
+    
     prediction = model.predict(data)
     return f"Predicted Sales: {prediction[0]}"
 

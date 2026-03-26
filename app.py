@@ -1,10 +1,9 @@
-from flask import Flask
-import pickle
 import numpy as np
+import pickle
+from flask import Flask
 
 app = Flask(__name__)
 
-# Load model
 model = pickle.load(open('model.pkl', 'rb'))
 
 @app.route('/')
@@ -13,11 +12,14 @@ def home():
 
 @app.route('/predict')
 def predict():
-    # Example input (change based on your dataset)
-    #data = np.array([[10, 2, 2024]])
-    data=np.zeros((1,30))
+    try:
+        # IMPORTANT: change 20 → your actual number of features
+        data = np.zeros((1, 30))  
+        
+        prediction = model.predict(data)
+        return f"Prediction: {prediction[0]}"
     
-    prediction = model.predict(data)
-    return f"Predicted Sales: {prediction[0]}"
+    except Exception as e:
+        return f"Error: {str(e)}"
 
 app.run(host='0.0.0.0', port=10000)
